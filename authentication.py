@@ -46,7 +46,7 @@ def _do_login(server, payload, headers=None):
                          data=payload)
     if not login.ok:
         raise RuntimeError('Error logging in. Content: {}'.format(login.content))
-    token = login.json().get('token')
+    token = login.json().get('authentication').get('token')
     session.cookies.set('token', token)
     session.headers.update({'Authorization': 'Bearer {}'.format(token)})
     return session
