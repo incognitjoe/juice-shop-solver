@@ -2,6 +2,12 @@ import os
 
 from authentication import get_admin_session
 
+def print_response(res):
+    print('HTTP/1.1 {status_code}\n{headers}\n\n{body}'.format(
+        status_code=res.status_code,
+        headers='\n'.join('{}: {}'.format(k, v) for k, v in res.headers.items()),
+        body=res.content,
+    ))
 
 def get_ftp_file_list(server, session):
     """
