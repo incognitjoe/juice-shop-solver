@@ -2,6 +2,12 @@ import json
 
 from authentication import get_admin_session
 
+def print_response(res):
+    print('HTTP/1.1 {status_code}\n{headers}\n\n{body}'.format(
+        status_code=res.status_code,
+        headers='\n'.join('{}: {}'.format(k, v) for k, v in res.headers.items()),
+        body=res.content,
+    ))
 
 def get_feedback_list(server, session):
     """
@@ -31,6 +37,20 @@ def delete_all_feedback(server, session):
     print('Success.')
 
 
+def get_cpatcha_info(server, session):
+    """
+    Get information of captcha.
+    :param server: juice shop URL.
+    :param session: Session
+    :return dict captcha answer contain `answer`, `captcha` and `captchaId`
+    """
+    captcha = session.get('{}/rest/captcha'.format(server))
+    print(captcha)
+    if not captcha.ok:
+        raise RuntimeError('Error getting captcha answer.')
+    return json.loads(captcha.content)
+
+
 def send_feedback(server, session, payload):
     """
     Submit feedback directly to the API.
@@ -38,10 +58,15 @@ def send_feedback(server, session, payload):
     :param session: Session
     :param payload: feedback content
     """
+    captcha = get_cpatcha_info(server, session)
+    payload['captchaId'] = captcha['captchaId']
+    payload['captcha'] = captcha['answer']
+    if not 'rating' in payload.keys(): payload['rating'] = 3
     submit = session.post('{}/api/Feedbacks'.format(server),
                           headers={'Content-type': 'application/json'},
                           data=json.dumps(payload))
     if not submit.ok:
+        print_response(submit)
         raise RuntimeError('Error submitting feedback.')
 
 
