@@ -107,6 +107,6 @@ def solve_user_challenges(server):
     get_users_with_sql_injection(server)
     create_user_with_xss2_payload(server)
     change_bender_password(server)
-    login_as_bjoern(server)
+    #login_as_bjoern(server)    # TODO
     login_as_ciso(server)
     print('\n== END USER CHALLENGES ==\n')
