@@ -9,6 +9,7 @@ from products import solve_product_challenges
 from users import solve_user_challenges
 
 server = 'http://localhost:3000'
+#server = 'http://localhost:8080'
 session = get_admin_session(server)
 solve_file_handling_challenges(server)
 solve_user_challenges(server)
