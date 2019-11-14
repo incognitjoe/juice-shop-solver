@@ -6,6 +6,12 @@ from zmq.utils import z85
 from authentication import get_admin_session
 from authentication import get_current_user_id
 
+def print_response(res):
+    print('HTTP/1.1 {status_code}\n{headers}\n\n{body}'.format(
+        status_code=res.status_code,
+        headers='\n'.join('{}: {}'.format(k, v) for k, v in res.headers.items()),
+        body=res.content,
+    ))
 
 def _get_basket_url(server):
     return '{}/rest/basket'.format(server)
@@ -16,8 +22,9 @@ def _build_basket_payload(productid, basketid, quantity):
 
 
 def search_products(server, session, searchterm=''):
-    search = session.get('{}/rest/product/search?q={}'.format(server, searchterm))
+    search = session.get('{}/rest/products/search?q={}'.format(server, searchterm))
     if not search.ok:
+        print_response(search)
         raise RuntimeError('Error searching products: {}'.format(search.reason))
     return search.json().get('data')
 
@@ -49,6 +56,7 @@ def order_christmas_special(server, session):
         if 'Christmas' in product.get('name'):
             basketid = get_current_user_id(server, session)
             payload = _build_basket_payload(product.get('id'), basketid, 1)
+            print("order_christmas_special: payload = {}".format(payload))
             _add_to_basket(server, session, payload)
             _checkout(server, session, basketid)
 
@@ -143,8 +151,10 @@ def _checkout(server, session, basketid):
     :param server: juice shop URL
     :param session: Session
     """
-    checkout = session.post('{}/{}/checkout'.format(_get_basket_url(server), basketid))
+    payload = json.dumps({"couponData":"bnVsbA==","orderDetails":{"paymentId":"3","addressId":"3","deliveryMethodId":"1"}})
+    checkout = session.post('{}/{}/checkout'.format(_get_basket_url(server), basketid), headers={'Content-Type': 'application/json'}, data=payload)
     if not checkout.ok:
+        print_response(checkout)
         raise RuntimeError('Error checking out basket.')
 
 def _generate_coupon():

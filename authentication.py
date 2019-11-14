@@ -82,7 +82,7 @@ def whoami(server, session):
     who = session.get('{}/rest/user/whoami'.format(server), headers={'Accept': 'application/json'})
     if not who.ok:
         raise RuntimeError('Error retrieving current user details')
-    return who.json()
+    return who.json()['user']
 
 
 def get_current_user_id(server, session):
