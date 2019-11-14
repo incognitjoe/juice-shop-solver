@@ -122,7 +122,7 @@ def _get_real_easter_egg_text(server, session):
 
 
 def _convert_contents_to_non_empty_list(text):
-    lines = text.split('\r\n')
+    lines = text.split('\n')
     return filter(None, lines)
 
 
