@@ -47,3 +47,7 @@ def solve_browser_challenges(server):
     travel_back_in_time(server, browser)
     take_screenshot_of_score_and_quit(server, browser)
     print('\n== BROWSER CHALLENGES COMPLETE ==\n')
+
+if __name__ == '__main__':
+    server = 'http://localhost:3000'
+    solve_browser_challenges(server)
