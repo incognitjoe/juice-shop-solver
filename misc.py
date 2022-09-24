@@ -181,6 +181,6 @@ def solve_misc_challenges(server):
     bypass_redirect_whitelist(server, session)
     check_all_language_files(server, session)
     provoke_error(server, session)
-    decrypt_easter_egg(server, session)
+    #decrypt_easter_egg(server, session)
     solve_challenge_99(server, session)
     print('\n== MISC CHALLENGES COMPLETE ==\n')
