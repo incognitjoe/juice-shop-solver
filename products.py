@@ -176,7 +176,7 @@ def solve_product_challenges(server):
     make_ourselves_rich(server, session)
     update_osaft_description(server, session)
     update_product_with_xss3_payload(server, session)
-    forge_coupon(server)
+    #forge_coupon(server)
     print('\n== PRODUCT CHALLENGES COMPLETE ==\n')
 
 if __name__ == '__main__':
