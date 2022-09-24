@@ -43,8 +43,8 @@ Since we rely on an older Python version and requirements, it's safest to run th
 
 For example:
 
-`docker run --rm juice-shop-solver --protocol http --hostname 10.0.2.15 --port 3000`
-`docker run --rm juice-shop-solver --protocol https --hostname juiceshop.azuresites.com --port 443`
+- `docker run --rm juice-shop-solver --protocol http --hostname 10.0.2.15 --port 3000`
+- `docker run --rm juice-shop-solver --protocol https --hostname juiceshop.azuresites.com --port 443`
 
 Otherwise:
 
