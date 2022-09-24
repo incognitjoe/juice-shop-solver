@@ -23,7 +23,7 @@ parser.add_argument('--protocol', nargs='?', type=ascii,
 
 args = parser.parse_args()
 
-server = args.protocol+'://'+args.hostname+args.port
+server = args.protocol+'://'+args.hostname+str(args.port)
 #server = 'http://localhost:3000'
 #server = 'http://localhost:8080'
 
