@@ -49,5 +49,5 @@ def solve_browser_challenges(server):
     print('\n== BROWSER CHALLENGES COMPLETE ==\n')
 
 if __name__ == '__main__':
-    server = 'http://localhost:3000'
+    #server = 'http://localhost:3000'
     solve_browser_challenges(server)

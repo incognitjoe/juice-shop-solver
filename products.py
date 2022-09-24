@@ -180,6 +180,6 @@ def solve_product_challenges(server):
     print('\n== PRODUCT CHALLENGES COMPLETE ==\n')
 
 if __name__ == '__main__':
-    server = 'http://localhost:3000'
+    #server = 'http://localhost:3000'
     session = get_admin_session(server)
     order_christmas_special(server, session)

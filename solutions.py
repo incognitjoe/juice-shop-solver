@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import argparse
+
 from authentication import get_admin_session
 from browser import solve_browser_challenges
 from feedback import solve_feedback_challenges
@@ -8,8 +10,23 @@ from misc import solve_misc_challenges
 from products import solve_product_challenges
 from users import solve_user_challenges
 
-server = 'http://localhost:3000'
+parser = argparse.ArgumentParser(description='Run JuiceShop solver against a target.')
+parser.add_argument('--hostname', nargs='?', type=ascii, 
+                    const='localhost', default='localhost',
+                    help='The FQDN of the target host (default: localhost)')
+parser.add_argument('--port', nargs='?', type=int, 
+                    const=3000, default=3000,
+                    help='The TCP port for JuiceShop (default: 3000)')
+parser.add_argument('--protocol', nargs='?', type=ascii, 
+                    const='http', default='http',
+                    help='Indicate [http/https] (default: http)')
+
+args = parser.parse_args()
+
+server = args.protocol+'://'+args.hostname+args.port
+#server = 'http://localhost:3000'
 #server = 'http://localhost:8080'
+
 session = get_admin_session(server)
 solve_file_handling_challenges(server)
 solve_user_challenges(server)
