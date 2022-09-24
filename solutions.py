@@ -17,4 +17,4 @@ solve_feedback_challenges(server)
 solve_product_challenges(server)
 solve_misc_challenges(server)
 # Selenium-based - comment out the below if you don't have the Chromedriver set up.
-solve_browser_challenges(server)
+#solve_browser_challenges(server)
