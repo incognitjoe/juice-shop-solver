@@ -1,9 +1,9 @@
 # Juice Shop Solver
 
 * [Summary](#Summary)
-* [Target Audience](#Target Audience)
+* [Target Audience](#Target_Audience)
 * [Requirements](#Requirements)
-* [How To Run](#How To Run)
+* [How To Run](#How_To_Run)
 
 # Summary
 
@@ -28,11 +28,32 @@ security concepts and the Python programming language.
 
 # How To Run
 
+The test suite defaults to attacking http://localhost:3000. This may not be where you run your JuiceShop, so we've added command line arguments.
+
+- `--protocol`, to specify http or https
+- `--hostname`, to indicate an IP address or hostname
+- `--port`, to indicate the target port
+
+Since we rely on an older Python version and requirements, it's safest to run this project in Docker.
+
+- Clone this repo
+- `cd` into the directory you create locally
+- `docker build -t juice-shop-solver .` to create the container image
+- `docker run --rm juice-shop-solver --help` to show how to run the project
+
+For example:
+
+`docker run --rm juice-shop-solver --protocol http --hostname 10.0.2.15 --port 3000`
+`docker run --rm juice-shop-solver --protocol https --hostname juiceshop.azuresites.com --port 443`
+
+Otherwise:
+
 - Clone this repo
 - `cd` into the directory you created locally
 - `pip install -r requirements.txt`(Create a virtualenv first if you'd like)
 - Start the Juice Shop application
-- `./solutions.py`, then wait a minute
+- `python ./solutions.py`, then wait a minute
+- Or if JuiceShop runs elsewhere: `python ./solutions.py --hostname 10.0.2.15`
 
 # Why?
 
